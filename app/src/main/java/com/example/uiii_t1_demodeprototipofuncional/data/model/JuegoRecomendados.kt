@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 
 data class JuegoRecomendados (
     val nombre: String,
-    val precio: String,
-    @DrawableRes val imagen: Int
+    val categoria: String,
+    val puntuacion: Double,
+    val id: String
 )
