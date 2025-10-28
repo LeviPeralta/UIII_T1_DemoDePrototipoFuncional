@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.uiii_t1_demodeprototipofuncional.ui.Navigation
+import androidx.navigation.compose.rememberNavController
+import com.example.uiii_t1_demodeprototipofuncional.ui.navigation.AppNavigation
 import com.example.uiii_t1_demodeprototipofuncional.ui.theme.UIII_T1_DemoDePrototipoFuncionalTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,8 +14,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             UIII_T1_DemoDePrototipoFuncionalTheme {
-                Navigation()
+                // Se crea el controlador de navegación
+                val navController = rememberNavController()
+
+                // Se inicia la navegación principal
+                AppNavigation(navController = navController)
+            }
             }
         }
-    }
 }
