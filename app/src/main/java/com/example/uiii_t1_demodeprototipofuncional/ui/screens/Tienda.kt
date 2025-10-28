@@ -15,10 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.uiii_t1_demodeprototipofuncional.data.model.JuegoRecomendados
 
 @Composable
-fun Tienda() {
+fun Tienda(navController: NavHostController) {
     Column (modifier = Modifier
         .fillMaxSize()
         .fillMaxWidth()

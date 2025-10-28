@@ -16,9 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 
 @Composable
-fun Biblioteca(){
+fun Biblioteca(navController: NavHostController){
     Column (modifier = Modifier
         .fillMaxSize()
         .fillMaxWidth()
@@ -41,11 +42,4 @@ fun Biblioteca(){
             }
         }
     }
-}
-
-@SuppressLint("ViewModelConstructorInComposable")
-@Preview(showBackground = true)
-@Composable
-fun PreviewBiblioteca(){
-
 }
