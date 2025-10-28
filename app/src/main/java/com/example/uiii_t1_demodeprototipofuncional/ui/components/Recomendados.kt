@@ -1,40 +1,49 @@
 package com.example.uiii_t1_demodeprototipofuncional.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.uiii_t1_demodeprototipofuncional.data.model.JuegoRecomendados
 
 @Composable
-fun Recomendados(p: JuegoRecomendados, x: (JuegoRecomendados) -> Unit){
-    Column{
-        Card {
-            Row (verticalAlignment = Alignment.CenterVertically,
+fun RecomendadosCard(p: JuegoRecomendados, onClick: (JuegoRecomendados) -> Unit) {
+    val context = LocalContext.current
+    val imageResId = context.resources.getIdentifier(p.id, "drawable", context.packageName)
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .clickable { onClick(p) }
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Image(
+                painter = painterResource(id = imageResId),
+                contentDescription = "Imagen del juego recomendado",
                 modifier = Modifier
-                    .fillMaxSize()
-                    .fillMaxWidth()
-                    .padding(30.dp),) {
-                Image(
-                    painter = painterResource(p.imagen),
-                    contentDescription = "imagen de la persona"
-                )
-                Column {
-                    Text(text = p.nombre, fontWeight = FontWeight.Bold)
-                    Text(text = p.precio)
-                }
+                    .size(80.dp)
+                    .padding(end = 12.dp)
+            )
+            Column {
+                Text(text = p.nombre, fontWeight = FontWeight.Bold)
+                Text(text = "Categoría: ${p.categoria}")
+                Text(text = "Puntuación: ${p.puntuacion}")
             }
         }
     }
 }
-
