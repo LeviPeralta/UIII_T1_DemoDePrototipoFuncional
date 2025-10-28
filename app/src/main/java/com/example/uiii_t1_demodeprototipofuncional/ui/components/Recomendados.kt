@@ -17,7 +17,6 @@ import com.example.uiii_t1_demodeprototipofuncional.data.model.JuegoRecomendados
 @Composable
 fun RecomendadosCard(p: JuegoRecomendados, onClick: (JuegoRecomendados) -> Unit) {
     val context = LocalContext.current
-    val imageResId = context.resources.getIdentifier(p.id, "drawable", context.packageName)
 
     Card(
         modifier = Modifier
@@ -32,13 +31,7 @@ fun RecomendadosCard(p: JuegoRecomendados, onClick: (JuegoRecomendados) -> Unit)
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            Image(
-                painter = painterResource(id = imageResId),
-                contentDescription = "Imagen del juego recomendado",
-                modifier = Modifier
-                    .size(80.dp)
-                    .padding(end = 12.dp)
-            )
+
             Column {
                 Text(text = p.nombre, fontWeight = FontWeight.Bold)
                 Text(text = "Categoría: ${p.categoria}")

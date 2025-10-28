@@ -88,7 +88,7 @@ fun Registro(navController: NavHostController){
 
             }
             Boton("Iniciar sesion") {
-                navController.navigate("biblioteca")
+                navController.navigate("tienda")
 
             }
         }

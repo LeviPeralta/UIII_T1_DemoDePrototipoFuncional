@@ -5,11 +5,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
 import com.example.uiii_t1_demodeprototipofuncional.ui.screens.*
 import com.example.uiii_t1_demodeprototipofuncional.ui.viewmodel.*
 
 @Composable
-fun AppNavigation(navController: NavHostController) {
+fun Navigation() {
+    val navController = rememberNavController()
     // Creamos los ViewModel que se compartirán entre pantallas
     val authVM: AuthViewModel = viewModel()
     val juegosVM: JuegosViewModel = viewModel()

@@ -24,10 +24,4 @@ class AuthViewModel : ViewModel() {
             false
         }
     }
-
-    fun logout() {
-        isLogged.value = false
-        username.value = ""
-        password.value = ""
-    }
 }

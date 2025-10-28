@@ -17,7 +17,6 @@ import com.example.uiii_t1_demodeprototipofuncional.data.model.JuegosPopulares
 @Composable
 fun JuegosPopularesCard(p: JuegosPopulares, onClick: (JuegosPopulares) -> Unit) {
     val context = LocalContext.current
-    val imageResId = context.resources.getIdentifier(p.id, "drawable", context.packageName)
 
     Card(
         modifier = Modifier
@@ -32,13 +31,6 @@ fun JuegosPopularesCard(p: JuegosPopulares, onClick: (JuegosPopulares) -> Unit) 
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            Image(
-                painter = painterResource(id = imageResId),
-                contentDescription = "Imagen del juego popular",
-                modifier = Modifier
-                    .size(80.dp)
-                    .padding(end = 12.dp)
-            )
             Column {
                 Text(text = p.nombre, fontWeight = FontWeight.Bold)
                 Text(text = "Categoría: ${p.categoria}")
