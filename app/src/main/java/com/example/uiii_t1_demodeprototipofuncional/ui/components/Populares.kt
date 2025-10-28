@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.uiii_t1_demodeprototipofuncional.data.model.JuegoRecomendados
-import com.example.ventanas.data.model.JuegosPopulares
+import com.example.uiii_t1_demodeprototipofuncional.data.model.JuegosPopulares
 
 @Composable
 fun JuegosPopulares(p: JuegosPopulares, x: (JuegosPopulares) -> Unit){
