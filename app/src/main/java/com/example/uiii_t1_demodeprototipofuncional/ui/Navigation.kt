@@ -45,5 +45,7 @@ fun Navigation() {
         composable("biblioteca") {
             Biblioteca(navController = navController, juegosVM = juegosVM)
         }
+        composable("usuarios") { PrincipalScreen(navController) }
+
     }
 }
