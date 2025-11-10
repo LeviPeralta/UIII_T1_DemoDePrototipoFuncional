@@ -2,108 +2,97 @@ package com.example.uiii_t1_demodeprototipofuncional.data
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-data class Usuario(
-    var id: Long = 0L,
-    var nombre: String,
-    var fechaNacimiento: String,
-    var correo: String,
-    var contrasena: String,
-    var telefono: String
-)
-
-class DbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
-    companion object {
-        const val DB_NAME = "demo_prototipo.db"
-        const val DB_VERSION = 2 // <-- súbelo para que se regenere la DB
-        const val TABLE_USER = "usuarios"
-
-        const val COL_ID = "id"
-        const val COL_NOMBRE = "nombre"
-        const val COL_FECHA = "fechaNacimiento"
-        const val COL_CORREO = "correo"
-        const val COL_CONTRASENA = "contrasena"
-        const val COL_TELEFONO = "telefono"
-    }
-
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "usuarios.db", null, 1) {
     override fun onCreate(db: SQLiteDatabase) {
         val createTable = """
-            CREATE TABLE $TABLE_USER (
-                $COL_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                $COL_NOMBRE TEXT NOT NULL,
-                $COL_FECHA TEXT,
-                $COL_CORREO TEXT,
-                $COL_CONTRASENA TEXT,
-                $COL_TELEFONO TEXT
-            );
-        """.trimIndent()
+        CREATE TABLE usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT,
+            fechaNacimiento TEXT,
+            correo TEXT,
+            contrasena TEXT,
+            telefono TEXT
+        )
+    """.trimIndent()
         db.execSQL(createTable)
 
-        // Insertar 5 registros de ejemplo
-        val defaults = listOf(
-            Usuario(nombre = "Juan Pérez", fechaNacimiento = "1999-03-15", correo = "juan@correo.com", contrasena = "1234", telefono = "5551234567"),
-            Usuario(nombre = "Ana López", fechaNacimiento = "2000-06-22", correo = "ana@correo.com", contrasena = "abcd", telefono = "5552345678"),
-            Usuario(nombre = "Carlos Ruiz", fechaNacimiento = "1998-09-01", correo = "carlos@correo.com", contrasena = "xyz", telefono = "5553456789"),
-            Usuario(nombre = "María Díaz", fechaNacimiento = "1997-12-11", correo = "maria@correo.com", contrasena = "12345", telefono = "5554567890"),
-            Usuario(nombre = "Laura Torres", fechaNacimiento = "2001-01-05", correo = "laura@correo.com", contrasena = "qwerty", telefono = "5555678901")
-        )
-
-        defaults.forEach { insertUsuario(db, it) }
+        db.execSQL("INSERT INTO usuarios (nombre, fechaNacimiento, correo, contrasena, telefono) VALUES ('Juan Pérez', '2000-05-12', 'juan@gmail.com', '1234', '5551112222')")
+        db.execSQL("INSERT INTO usuarios (nombre, fechaNacimiento, correo, contrasena, telefono) VALUES ('María López', '1999-08-25', 'maria@gmail.com', 'abcd', '5552223333')")
+        db.execSQL("INSERT INTO usuarios (nombre, fechaNacimiento, correo, contrasena, telefono) VALUES ('Carlos Díaz', '2001-03-15', 'carlos@gmail.com', 'qwerty', '5553334444')")
+        db.execSQL("INSERT INTO usuarios (nombre, fechaNacimiento, correo, contrasena, telefono) VALUES ('Lucía Gómez', '1998-12-10', 'lucia@gmail.com', 'password', '5554445555')")
+        db.execSQL("INSERT INTO usuarios (nombre, fechaNacimiento, correo, contrasena, telefono) VALUES ('Ana Torres', '2002-09-01', 'ana@gmail.com', '0000', '5555556666')")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS $TABLE_USER")
+        db.execSQL("DROP TABLE IF EXISTS usuarios")
         onCreate(db)
     }
 
-    private fun insertUsuario(db: SQLiteDatabase, usuario: Usuario) {
-        val values = ContentValues().apply {
-            put(COL_NOMBRE, usuario.nombre)
-            put(COL_FECHA, usuario.fechaNacimiento)
-            put(COL_CORREO, usuario.correo)
-            put(COL_CONTRASENA, usuario.contrasena)
-            put(COL_TELEFONO, usuario.telefono)
-        }
-        db.insert(TABLE_USER, null, values)
-    }
-
+    // Crear (Insert)
     fun insertUsuario(usuario: Usuario): Long {
         val db = writableDatabase
         val values = ContentValues().apply {
-            put(COL_NOMBRE, usuario.nombre)
-            put(COL_FECHA, usuario.fechaNacimiento)
-            put(COL_CORREO, usuario.correo)
-            put(COL_CONTRASENA, usuario.contrasena)
-            put(COL_TELEFONO, usuario.telefono)
+            put("nombre", usuario.nombre)
+            put("fechaNacimiento", usuario.fechaNacimiento)
+            put("correo", usuario.correo)
+            put("contrasena", usuario.contrasena)
+            put("telefono", usuario.telefono)
         }
-        val id = db.insert(TABLE_USER, null, values)
+
+        // Inserta y retorna el ID del nuevo registro
+        val id = db.insert("usuarios", null, values)
         db.close()
         return id
     }
 
+
+    // Leer (Read)
     fun getAllUsuarios(): List<Usuario> {
-        val lista = mutableListOf<Usuario>()
+        val usuarios = mutableListOf<Usuario>()
         val db = readableDatabase
-        val cursor: Cursor = db.rawQuery("SELECT * FROM $TABLE_USER", null)
+        val cursor = db.rawQuery("SELECT * FROM usuarios", null)
         if (cursor.moveToFirst()) {
             do {
-                lista.add(
+                usuarios.add(
                     Usuario(
-                        id = cursor.getLong(cursor.getColumnIndexOrThrow(COL_ID)),
-                        nombre = cursor.getString(cursor.getColumnIndexOrThrow(COL_NOMBRE)),
-                        fechaNacimiento = cursor.getString(cursor.getColumnIndexOrThrow(COL_FECHA)),
-                        correo = cursor.getString(cursor.getColumnIndexOrThrow(COL_CORREO)),
-                        contrasena = cursor.getString(cursor.getColumnIndexOrThrow(COL_CONTRASENA)),
-                        telefono = cursor.getString(cursor.getColumnIndexOrThrow(COL_TELEFONO))
+                        id = cursor.getInt(0),
+                        nombre = cursor.getString(1),
+                        fechaNacimiento = cursor.getString(2),
+                        correo = cursor.getString(3),
+                        contrasena = cursor.getString(4),
+                        telefono = cursor.getString(5)
                     )
                 )
             } while (cursor.moveToNext())
         }
         cursor.close()
         db.close()
-        return lista
+        return usuarios
+    }
+
+    // Actualizar (Update)
+    fun updateUsuario(usuario: Usuario): Int {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("nombre", usuario.nombre)
+            put("fechaNacimiento", usuario.fechaNacimiento)
+            put("correo", usuario.correo)
+            put("contrasena", usuario.contrasena)
+            put("telefono", usuario.telefono)
+        }
+        val rows = db.update("usuarios", values, "id = ?", arrayOf(usuario.id.toString()))
+        db.close()
+        return rows
+    }
+
+    // Eliminar (Delete)
+    fun deleteUsuario(id: Int): Int {
+        val db = writableDatabase
+        val rows = db.delete("usuarios", "id = ?", arrayOf(id.toString()))
+        db.close()
+        return rows
     }
 }

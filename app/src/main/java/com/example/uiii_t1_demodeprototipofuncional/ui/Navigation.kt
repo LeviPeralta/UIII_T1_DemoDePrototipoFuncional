@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.uiii_t1_demodeprototipofuncional.data.Usuario
 import com.example.uiii_t1_demodeprototipofuncional.ui.screens.*
 import com.example.uiii_t1_demodeprototipofuncional.ui.viewmodel.*
 
@@ -46,6 +47,12 @@ fun Navigation() {
             Biblioteca(navController = navController, juegosVM = juegosVM)
         }
         composable("usuarios") { PrincipalScreen(navController) }
+
+        composable("editarUsuario") {
+            val usuario = navController.previousBackStackEntry?.savedStateHandle?.get<Usuario>("usuario")
+            usuario?.let { EditarUsuarioScreen(navController, it) }
+        }
+
 
     }
 }
